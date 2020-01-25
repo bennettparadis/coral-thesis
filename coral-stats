@@ -1,0 +1,737 @@
+####### MASTERS THESIS STATS--R CODE
+
+##### Tested photosynthesis, respiration, and P:R (3 Y variables, tested separately) among staghorn coral fragments 
+##### under different treatments to see if there was an interaction between two stressors on metabolic performance.
+
+##### Two stressors were used 1) abrasion, and 2) temperature.
+##### There were a total of 8 possible treatments. Abrasion categories: control (none) or abraded. 
+##### Temperatures: 22, 25 (control), 28, and 30 °C.
+
+##### A total of 105 trials were conducted--40 abraded fragment trials, 65 non-abraded fragment trials. 
+##### In the 65 non-abraded trials, the breakdown of sample size used was as follows:
+##### 15 at 22°C; 19 at 25°C; 18 at 28°C; 13 at 30°C
+#####
+##### In the 40 abraded trials, the breakdown of sample size used was as follows:
+##### 10 at 22°C; 10 at 25°C; 10 at 28°C; 10 at 30°C
+#####
+##### With fragments undergoing multiple trials, a random effect for individual fragment was included in the models.  
+
+#### First, tested for an interaction effect between the two stressors--abrasions and temperature. Labeled as 
+#### Treatment (Abr-abraded; NoAbr-not abraded) and Temp (treated as a categorical variable). 
+
+### Load full data set (includes all non-abraded and abraded fragments tested at all temperatures)
+
+> All=read.csv(file.choose())
+> head(All)
+  Fragment Temp Photosynthesis Respiration       P.R Treatment
+1      M6a   22     1.19174803  -0.2851504 4.1793660       Abr
+2       6E   22     0.98880311  -0.8511051 1.1617874       Abr
+3       6D   22     0.22916100  -0.2973318 0.7707249       Abr
+4      M6b   22     0.45133787  -0.1563846 2.8860759       Abr
+5      M1d   22     0.08877105  -0.2909460 0.3051118       Abr
+6       5D   22     0.32884460  -0.1440571 2.2827381       Abr
+
+### Load nlme package
+> library(nlme)
+
+#### Is there an interaction effect between the two stress variables on the photosynthetic output of coral frags? 
+
+> resultsINTP=lme(Photosynthesis~relevel(as.factor(Temp),ref="25")*Treatment,data=All,random=~1|Fragment)
+> summary(resultsINTP)
+Linear mixed-effects model fit by REML
+ Data: All 
+       AIC      BIC    logLik
+  106.7943 132.5414 -43.39714
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.1018693 0.3277471
+
+Fixed effects: Photosynthesis ~ relevel(as.factor(Temp), ref = "25") * Treatment 
+                                                           Value Std.Error DF   t-value
+(Intercept)                                            0.4575052 0.1078094 72  4.243649
+relevel(as.factor(Temp), ref = "25")22                 0.0685110 0.1486684 72  0.460831
+relevel(as.factor(Temp), ref = "25")28                -0.4209635 0.1476156 72 -2.851755
+relevel(as.factor(Temp), ref = "25")30                -0.3082990 0.1481799 72 -2.080573
+TreatmentNoAbr                                         0.6911855 0.1302274 72  5.307527
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr -0.5363937 0.1874948 72 -2.860846
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr -0.2631540 0.1835778 72 -1.433474
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr -0.6456709 0.1903151 72 -3.392641
+                                                      p-value
+(Intercept)                                            0.0001
+relevel(as.factor(Temp), ref = "25")22                 0.6463
+relevel(as.factor(Temp), ref = "25")28                 0.0057
+relevel(as.factor(Temp), ref = "25")30                 0.0410
+TreatmentNoAbr                                         0.0000
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr  0.0055
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr  0.1561
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr  0.0011
+ Correlation: 
+                                                      (Intr) rl(.(T),r="25")22
+relevel(as.factor(Temp), ref = "25")22                -0.690                  
+relevel(as.factor(Temp), ref = "25")28                -0.685  0.500           
+relevel(as.factor(Temp), ref = "25")30                -0.687  0.498           
+TreatmentNoAbr                                        -0.798  0.571           
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr  0.552 -0.790           
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr  0.552 -0.399           
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr  0.538 -0.386           
+                                                      rl(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22                                 
+relevel(as.factor(Temp), ref = "25")28                                 
+relevel(as.factor(Temp), ref = "25")30                 0.491           
+TreatmentNoAbr                                         0.567           
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr -0.395           
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr -0.803           
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr -0.378           
+                                                      rl(.(T),r="25")30 TrtmNA
+relevel(as.factor(Temp), ref = "25")22                                        
+relevel(as.factor(Temp), ref = "25")28                                        
+relevel(as.factor(Temp), ref = "25")30                                        
+TreatmentNoAbr                                         0.569                  
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr -0.397            -0.694
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr -0.398            -0.700
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr -0.777            -0.678
+                                                      r(.(T),r="25")22:
+relevel(as.factor(Temp), ref = "25")22                                 
+relevel(as.factor(Temp), ref = "25")28                                 
+relevel(as.factor(Temp), ref = "25")30                                 
+TreatmentNoAbr                                                         
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr                  
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr  0.486           
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr  0.474           
+                                                      r(.(T),r="25")28:
+relevel(as.factor(Temp), ref = "25")22                                 
+relevel(as.factor(Temp), ref = "25")28                                 
+relevel(as.factor(Temp), ref = "25")30                                 
+TreatmentNoAbr                                                         
+relevel(as.factor(Temp), ref = "25")22:TreatmentNoAbr                  
+relevel(as.factor(Temp), ref = "25")28:TreatmentNoAbr                  
+relevel(as.factor(Temp), ref = "25")30:TreatmentNoAbr  0.474           
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.10992227 -0.60885505 -0.05625508  0.50648399  3.79847190 
+
+Number of Observations: 105
+Number of Groups: 26 
+
+### next run anova to compare 3 models (just temp, just abrasion, and temp+abrasion+interaction)
+
+> anova(resultsINTP)
+                                               numDF denDF   F-value p-value
+(Intercept)                                        1    72 185.22708  <.0001
+relevel(as.factor(Temp), ref = "25")               3    72  25.99059  <.0001
+Treatment                                          1    72  25.69761  <.0001
+relevel(as.factor(Temp), ref = "25"):Treatment     3    72   4.68271  0.0048
+
+### p-value is 0.0048 for the more complicated model, with a significant interaction. As a result, the two variables
+### were treated separately for further analyses. 
+
+### Is there an interaction between the two stressors for respiration?
+
+> resultsINTR=lme(Respiration~relevel(as.factor(Temp),ref="25")*Treatment,data=All,random=~1|Fragment)
+> anova(resultsINTR)
+                                               numDF denDF   F-value p-value
+(Intercept)                                        1    72 157.61287  <.0001
+relevel(as.factor(Temp), ref = "25")               3    72  15.95237  <.0001
+Treatment                                          1    72   4.71775  0.0331
+relevel(as.factor(Temp), ref = "25"):Treatment     3    72   0.47515  0.7006
+
+### p-value = 0.7006 ---> no, continue to treat the two variables separately in further analyses
+
+### Is there an interaction between the two stressors for P:R ratio?
+
+> resultsINTRatio=lme(P.R~relevel(as.factor(Temp),ref="25")*Treatment,data=All,random=~1|Fragment)
+> anova(resultsINTRatio)
+                                               numDF denDF  F-value p-value
+(Intercept)                                        1    72 45.21715  <.0001
+relevel(as.factor(Temp), ref = "25")               3    72 12.89852  <.0001
+Treatment                                          1    72  5.28540  0.0244
+relevel(as.factor(Temp), ref = "25"):Treatment     3    72  0.90425  0.4434
+
+### p-value = 0.4434 ---> no, continue to treat the two variables separately in further analyses
+
+#### The next steps were to analyze the control (non-abraded) fragments and compare their metabolic outputs 
+#### (P, R, and P:R) at the 4 possible temperature treatments. The process was then repeated for abraded fragments. 
+
+### Load the csv file with only control (non-abrasion) trials
+
+> control=read.csv(file.choose())
+> head(control)
+  Fragment Temp Photosynthesis Respiration      P.R Treatment
+1      K1d   22      0.4223241  -0.3262335 1.294545     NoAbr
+2      M6a   22      0.8356023  -0.4836809 1.727590     NoAbr
+3       6E   22      0.7902731  -0.5127766 1.541165     NoAbr
+4      K1e   22      0.9237268  -0.2232976 4.136752     NoAbr
+5       5G   22      0.4356567  -0.3014241 1.445328     NoAbr
+6       5X   22      0.3552430  -0.2283705 1.555556     NoAbr
+
+#### Compare control (non-abraded) fragments at different temperatures. Set 25°C as the reference for temperature. 
+
+### Test photosynthesis rates
+
+> resultsCPht=lme(Photosynthesis~relevel(as.factor(Temp), ref="25"),data=control,random=~1|Fragment)
+> summary(resultsCPht)
+Linear mixed-effects model fit by REML
+ Data: control 
+       AIC      BIC    logLik
+  68.93357 81.59882 -28.46679
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.1767431 0.3151887
+
+Fixed effects: Photosynthesis ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value  Std.Error DF   t-value p-value
+(Intercept)                             1.1406973 0.08201481 37 13.908431   0e+00
+relevel(as.factor(Temp), ref = "25")22 -0.4686274 0.11330649 37 -4.135927   2e-04
+relevel(as.factor(Temp), ref = "25")28 -0.6689371 0.10790391 37 -6.199378   0e+00
+relevel(as.factor(Temp), ref = "25")30 -0.9346498 0.11828427 37 -7.901725   0e+00
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.591                                  
+relevel(as.factor(Temp), ref = "25")28 -0.631  0.471                           
+relevel(as.factor(Temp), ref = "25")30 -0.572  0.441            0.447          
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.97652309 -0.47887543 -0.07983334  0.55744191  3.51778543 
+
+Number of Observations: 65
+Number of Groups: 25 
+
+##### Test respiration rates
+
+> resultsCResp=lme(Respiration~relevel(as.factor(Temp), ref="25"),data=control,random=~1|Fragment)
+> summary(resultsCResp)
+Linear mixed-effects model fit by REML
+ Data: control 
+       AIC      BIC    logLik
+  59.99816 72.66341 -23.99908
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept) Residual
+StdDev:   0.0967135 0.314066
+
+Fixed effects: Respiration ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value  Std.Error DF   t-value p-value
+(Intercept)                            -0.5709074 0.07526463 37 -7.585334  0.0000
+relevel(as.factor(Temp), ref = "25")22  0.2411956 0.11030167 37  2.186691  0.0352
+relevel(as.factor(Temp), ref = "25")28 -0.1515046 0.10498814 37 -1.443064  0.1574
+relevel(as.factor(Temp), ref = "25")30 -0.2405567 0.11500971 37 -2.091621  0.0434
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.638                                  
+relevel(as.factor(Temp), ref = "25")28 -0.675  0.467                           
+relevel(as.factor(Temp), ref = "25")30 -0.614  0.431            0.446          
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-4.4818647 -0.5008261  0.2050228  0.6448294  1.3533458 
+
+Number of Observations: 65
+Number of Groups: 25 
+
+#### Compare the P:R ratio 
+
+> resultsCRatio=lme(P.R~relevel(as.factor(Temp), ref="25"),data=control,random=~1|Fragment)
+> summary(resultsCRatio)
+Linear mixed-effects model fit by REML
+ Data: control 
+       AIC      BIC   logLik
+  211.2636 223.9288 -99.6318
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept) Residual
+StdDev:   0.1046939 1.126455
+
+Fixed effects: P.R ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value Std.Error DF   t-value p-value
+(Intercept)                             2.0798449 0.2595355 37  8.013721  0.0000
+relevel(as.factor(Temp), ref = "25")22  0.4625024 0.3897775 37  1.186580  0.2430
+relevel(as.factor(Temp), ref = "25")28 -1.3832462 0.3711536 37 -3.726884  0.0006
+relevel(as.factor(Temp), ref = "25")30 -1.7825129 0.4062054 37 -4.388206  0.0001
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.662                                  
+relevel(as.factor(Temp), ref = "25")28 -0.695  0.464                           
+relevel(as.factor(Temp), ref = "25")30 -0.635  0.424            0.445          
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.35743712 -0.33963775 -0.09774691  0.16129814  6.12493336 
+
+Number of Observations: 65
+Number of Groups: 25 
+
+
+
+#### Compare abraded fragments at different temperatures. Set 25°C as the reference for temperature
+### Load the csv file with only abrasion trials.
+
+> Abr=read.csv(file.choose())
+> head(Abr)
+  Fragment Temp Photosynthesis Respiration       P.R Treatment
+1      M6a   22     1.19174803  -0.2851504 4.1793660       Abr
+2       6E   22     0.98880311  -0.8511051 1.1617874       Abr
+3       6D   22     0.22916100  -0.2973318 0.7707249       Abr
+4      M6b   22     0.45133787  -0.1563846 2.8860759       Abr
+5      M1d   22     0.08877105  -0.2909460 0.3051118       Abr
+6       5D   22     0.32884460  -0.1440571 2.2827381       Abr
+
+### Test photosynthesis rates
+
+> resultsAPht=lme(Photosynthesis~relevel(as.factor(Temp), ref="25"),data=Abr,random=~1|Fragment)
+> summary(resultsAPht)
+Linear mixed-effects model fit by REML
+ Data: Abr 
+       AIC      BIC    logLik
+  35.82105 45.32217 -11.91053
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.2128431 0.2391522
+
+Fixed effects: Photosynthesis ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value  Std.Error DF   t-value p-value
+(Intercept)                             0.4548760 0.09633081 20  4.722020  0.0001
+relevel(as.factor(Temp), ref = "25")22  0.0514855 0.11517045 20  0.447037  0.6597
+relevel(as.factor(Temp), ref = "25")28 -0.4079590 0.11096103 20 -3.676597  0.0015
+relevel(as.factor(Temp), ref = "25")30 -0.2915196 0.11316542 20 -2.576048  0.0180
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.599                                  
+relevel(as.factor(Temp), ref = "25")28 -0.575  0.495                           
+relevel(as.factor(Temp), ref = "25")30 -0.588  0.485            0.451          
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.43290987 -0.56908210 -0.02727678  0.38857595  2.38694540 
+
+Number of Observations: 40
+Number of Groups: 17 
+
+### Test Respiration rates
+
+> resultsAResp=lme(Respiration~relevel(as.factor(Temp), ref="25"),data=Abr,random=~1|Fragment)
+> summary(resultsAResp)
+Linear mixed-effects model fit by REML
+ Data: Abr 
+       AIC      BIC    logLik
+  52.67071 62.17183 -20.33536
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.3333182 0.2763531
+
+Fixed effects: Respiration ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value Std.Error DF   t-value p-value
+(Intercept)                            -0.5941507 0.1253813 20 -4.738749  0.0001
+relevel(as.factor(Temp), ref = "25")22  0.2081548 0.1359282 20  1.531358  0.1413
+relevel(as.factor(Temp), ref = "25")28 -0.3729795 0.1295543 20 -2.878944  0.0093
+relevel(as.factor(Temp), ref = "25")30 -0.3897630 0.1329780 20 -2.931034  0.0083
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.543                                  
+relevel(as.factor(Temp), ref = "25")28 -0.515  0.492                           
+relevel(as.factor(Temp), ref = "25")30 -0.530  0.478            0.435          
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.9501685 -0.3654529  0.1510122  0.4648271  1.4603382 
+
+Number of Observations: 40
+Number of Groups: 17 
+
+### Compare P:R ratio between abraded fragments at the various temperatures
+
+> resultsARatio=lme(P.R~relevel(as.factor(Temp), ref="25"),data=Abr,random=~1|Fragment)
+> summary(resultsARatio)
+Linear mixed-effects model fit by REML
+ Data: Abr 
+      AIC      BIC    logLik
+  105.326 114.8272 -46.66302
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.5548738 0.6295611
+
+Fixed effects: P.R ~ relevel(as.factor(Temp), ref = "25") 
+                                            Value Std.Error DF   t-value p-value
+(Intercept)                             1.1056009 0.2527662 20  4.374006  0.0003
+relevel(as.factor(Temp), ref = "25")22  0.7038842 0.3029718 20  2.323267  0.0308
+relevel(as.factor(Temp), ref = "25")28 -0.9830651 0.2920016 20 -3.366642  0.0031
+relevel(as.factor(Temp), ref = "25")30 -0.7742682 0.2977419 20 -2.600468  0.0171
+ Correlation: 
+                                       (Intr) r(.(T),r="25")22 r(.(T),r="25")28
+relevel(as.factor(Temp), ref = "25")22 -0.601                                  
+relevel(as.factor(Temp), ref = "25")28 -0.577  0.495                           
+relevel(as.factor(Temp), ref = "25")30 -0.590  0.485            0.451          
+
+Standardized Within-Group Residuals:
+         Min           Q1          Med           Q3          Max 
+-1.883319640 -0.559638931 -0.001728325  0.232406884  2.118598110 
+
+Number of Observations: 40
+Number of Groups: 17 
+
+
+#### After comparisons between temperatures, I looked at the difference between abraded and 
+#### non-abraded fragments within each temperature individually.
+
+### Load .csv file with only trials at 22°C
+
+> data22=read.csv(file.choose())
+> head(data22)
+  Fragment Temp Photosynthesis Respiration       P.R Treatment
+1      M6a   22     1.19174803  -0.2851504 4.1793660       Abr
+2       6E   22     0.98880311  -0.8511051 1.1617874       Abr
+3       6D   22     0.22916100  -0.2973318 0.7707249       Abr
+4      M6b   22     0.45133787  -0.1563846 2.8860759       Abr
+5      M1d   22     0.08877105  -0.2909460 0.3051118       Abr
+6       5D   22     0.32884460  -0.1440571 2.2827381       Abr
+
+### Compare photosynthesis rates 
+
+> results22P=lme(Photosynthesis~relevel(Treatment, ref="NoAbr"),data=data22,random=~1|Fragment)
+> summary(results22P)
+Linear mixed-effects model fit by REML
+ Data: data22 
+       AIC      BIC    logLik
+  22.23686 26.77884 -7.118431
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept) Residual
+StdDev:    0.150804 0.259317
+
+Fixed effects: Photosynthesis ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                           0.6687609 0.07828039 14  8.543148  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.1533204 0.10925788  9 -1.403289  0.1941
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.541
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.22953820 -0.68031414 -0.06558492  0.31863115  2.13811871 
+
+Number of Observations: 25
+Number of Groups: 15 
+
+### Respiration at 22°C
+
+> results22R=lme(Respiration~relevel(Treatment, ref="NoAbr"),data=data22,random=~1|Fragment)
+> summary(results22R)
+Linear mixed-effects model fit by REML
+ Data: data22 
+        AIC       BIC   logLik
+  -8.120141 -3.578164 8.060071
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:  0.08256445 0.1318792
+
+Fixed effects: Respiration ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                          -0.3303177 0.04062683 14 -8.130532  0.0000
+relevel(Treatment, ref = "NoAbr")Abr  0.0152897 0.05576352  9  0.274188  0.7901
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.53 
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-2.8677999 -0.3788954  0.1311874  0.4667365  1.1583724 
+
+Number of Observations: 25
+Number of Groups: 15 
+
+### P:R at 22°C
+
+> results22PR=lme(P.R~relevel(Treatment, ref="NoAbr"),data=data22,random=~1|Fragment)
+> summary(results22PR)
+Linear mixed-effects model fit by REML
+ Data: data22 
+       AIC      BIC    logLik
+  104.6717 109.2137 -48.33586
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept) Residual
+StdDev:    1.742654 1.091506
+
+Fixed effects: P.R ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value Std.Error DF   t-value p-value
+(Intercept)                           2.5564331 0.5362135 14  4.767566  0.0003
+relevel(Treatment, ref = "NoAbr")Abr -0.2066151 0.4873507  9 -0.423956  0.6816
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.333
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.0384583 -0.4236806 -0.1204685  0.2320562  1.7937036 
+
+Number of Observations: 25
+Number of Groups: 15 
+
+#### Repeat process for temperatures 25, 28, and 30°C
+
+> data25=read.csv(file.choose())
+> head(data25)
+  Fragment Temp Photosynthesis Respiration        P.R Treatment
+1       6D   25      0.3034958  -0.8356816 0.36317158       Abr
+2    M10b*   25      0.8761723  -0.3398179 2.57835821       Abr
+3      B8c   25      0.0346136  -1.4797315 0.02339181       Abr
+4      B8f   25      1.0095354  -1.0096372 0.99989919       Abr
+5       5C   25      0.2190024  -0.3223600 0.67937220       Abr
+6       5X   25      0.5297815  -0.4089542 1.29545454       Abr
+2019-08-01 11:53:02.757 R[7344:798529] plugin com.getdropbox.dropbox.garcon interrupted
+> results25P=lme(Photosynthesis~relevel(Treatment, ref="NoAbr"),data=data25,random=~1|Fragment)
+> summary(results25P)
+Linear mixed-effects model fit by REML
+ Data: data25 
+       AIC      BIC    logLik
+  53.20512 58.38846 -22.60256
+
+Random effects:
+ Formula: ~1 | Fragment
+         (Intercept)  Residual
+StdDev: 5.302167e-05 0.5071371
+
+Fixed effects: Photosynthesis ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value Std.Error DF   t-value p-value
+(Intercept)                           1.1426053 0.1163452 20  9.820818  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.6858546 0.1981288  7 -3.461661  0.0105
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.587
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.5018728 -0.6959614 -0.3021962  0.6647110  2.5474764 
+
+Number of Observations: 29
+Number of Groups: 21 
+> results25P=lme(Respiration~relevel(Treatment, ref="NoAbr"),data=data25,random=~1|Fragment)
+> summary(results25P)
+Linear mixed-effects model fit by REML
+ Data: data25 
+       AIC      BIC    logLik
+  26.71354 31.89689 -9.356772
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.2551168 0.2081825
+
+Fixed effects: Respiration ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                          -0.5421270 0.07433612 20 -7.292914  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.1456947 0.09359806  7 -1.556600  0.1635
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.383
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.3493721 -0.4296291  0.1396023  0.4336968  1.2666769 
+
+Number of Observations: 29
+Number of Groups: 21 
+> results25Ratio=lme(P.R~relevel(Treatment, ref="NoAbr"),data=data25,random=~1|Fragment)
+> summary(results25Ratio)
+Linear mixed-effects model fit by REML
+ Data: data25 
+       AIC      BIC    logLik
+  98.24954 103.4329 -45.12477
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:    1.109593 0.6649623
+
+Fixed effects: P.R ~ relevel(Treatment, ref = "NoAbr") 
+                                         Value Std.Error DF   t-value p-value
+(Intercept)                           2.549461 0.2894629 20  8.807555   0.000
+relevel(Treatment, ref = "NoAbr")Abr -1.302277 0.3094372  7 -4.208534   0.004
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.318
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.16196067 -0.46150575 -0.03334277  0.52898029  1.10181981 
+
+Number of Observations: 29
+Number of Groups: 21 
+> data28=read.csv(file.choose())
+2019-08-01 11:57:17.209 R[7344:803985] plugin com.getdropbox.dropbox.garcon interrupted
+> results28P=lme(Photosynthesis~relevel(Treatment, ref="NoAbr"),data=data28,random=~1|Fragment)
+> results28R=lme(Respiration~relevel(Treatment, ref="NoAbr"),data=data28,random=~1|Fragment)
+> results28Ratio=lme(P.R~relevel(Treatment, ref="NoAbr"),data=data28,random=~1|Fragment)
+> summary(results28P)
+Linear mixed-effects model fit by REML
+ Data: data28 
+       AIC      BIC    logLik
+  21.42949 26.46188 -6.714745
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev: 4.04187e-06 0.2834999
+
+Fixed effects: Photosynthesis ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                           0.4566321 0.06682156 18  6.833604   0.000
+relevel(Treatment, ref = "NoAbr")Abr -0.4281822 0.11181385  8 -3.829420   0.005
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.598
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.9164521 -0.6669217 -0.2153264  0.9370505  1.7813206 
+
+Number of Observations: 28
+Number of Groups: 19 
+> summary(results28R)
+Linear mixed-effects model fit by REML
+ Data: data28 
+       AIC      BIC    logLik
+  30.62987 35.66225 -11.31493
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.3145017 0.2073463
+
+Fixed effects: Respiration ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                          -0.7580617 0.08849798 18 -8.565865  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.2534007 0.09457017  8 -2.679499  0.0279
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.341
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.45554337 -0.53887999  0.05888725  0.48488360  1.40786935 
+
+Number of Observations: 28
+Number of Groups: 19 
+> summary(results28Ratio)
+Linear mixed-effects model fit by REML
+ Data: data28 
+       AIC      BIC    logLik
+  37.68123 42.71362 -14.84062
+
+Random effects:
+ Formula: ~1 | Fragment
+         (Intercept)  Residual
+StdDev: 1.407092e-05 0.3875113
+
+Fixed effects: P.R ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value Std.Error DF   t-value p-value
+(Intercept)                           0.7562031 0.0913373 18  8.279236  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.7165903 0.1528365  8 -4.688606  0.0016
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.598
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.6196085 -0.8299551  0.0133358  0.6282395  2.4220307 
+
+Number of Observations: 28
+Number of Groups: 19 
+> data30=read.csv(file.choose())
+> results30P=lme(Photosynthesis~relevel(Treatment, ref="NoAbr"),data=data30,random=~1|Fragment)
+2019-08-01 12:13:46.377 R[7344:823928] plugin com.getdropbox.dropbox.garcon interrupted
+> results30R=lme(Respiration~relevel(Treatment, ref="NoAbr"),data=data30,random=~1|Fragment)
+> results30Ratio=lme(P.R~relevel(Treatment, ref="NoAbr"),data=data30,random=~1|Fragment)
+> summary(results30P)
+Linear mixed-effects model fit by REML
+ Data: data30 
+        AIC       BIC   logLik
+  -17.09376 -12.91567 12.54688
+
+Random effects:
+ Formula: ~1 | Fragment
+         (Intercept) Residual
+StdDev: 2.431659e-06 0.118564
+
+Fixed effects: Photosynthesis ~ relevel(Treatment, ref = "NoAbr") 
+                                           Value  Std.Error DF   t-value p-value
+(Intercept)                           0.18783793 0.03288373 15  5.712184  0.0000
+relevel(Treatment, ref = "NoAbr")Abr -0.05659508 0.04987065  6 -1.134838  0.2997
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.659
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.8156064 -0.6508560 -0.2714606  0.6815736  1.8907032 
+
+Number of Observations: 23
+Number of Groups: 16 
+> summary(results30R)
+Linear mixed-effects model fit by REML
+ Data: data30 
+       AIC      BIC    logLik
+  47.28487 51.46296 -19.64243
+
+Random effects:
+ Formula: ~1 | Fragment
+         (Intercept)  Residual
+StdDev: 2.247884e-05 0.5490981
+
+Fixed effects: Respiration ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value Std.Error DF   t-value p-value
+(Intercept)                          -0.8058235 0.1522924 15 -5.291292  0.0001
+relevel(Treatment, ref = "NoAbr")Abr -0.1881019 0.2309629  6 -0.814425  0.4465
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.659
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-2.7952351 -0.1104164  0.3725162  0.6284950  1.0322724 
+
+Number of Observations: 23
+Number of Groups: 16 
+> summary(results30Ratio)
+Linear mixed-effects model fit by REML
+ Data: data30 
+       AIC      BIC    logLik
+  15.40092 19.57901 -3.700461
+
+Random effects:
+ Formula: ~1 | Fragment
+        (Intercept)  Residual
+StdDev:   0.1586663 0.2090585
+
+Fixed effects: P.R ~ relevel(Treatment, ref = "NoAbr") 
+                                          Value  Std.Error DF   t-value p-value
+(Intercept)                           0.3584210 0.07198617 15  4.979026  0.0002
+relevel(Treatment, ref = "NoAbr")Abr -0.1635585 0.09489437  6 -1.723585  0.1356
+ Correlation: 
+                                     (Intr)
+relevel(Treatment, ref = "NoAbr")Abr -0.556
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.1532432 -0.4811179 -0.2705251  0.3189401  2.0018395 
+
+Number of Observations: 23
+Number of Groups: 16 
