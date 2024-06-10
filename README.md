@@ -1,2 +1,10 @@
-# coral-thesis
-R code and csv files for the statistics behind my masters thesis on coral stress physiology
+# Coral MS Thesis analysis
+R code and csv files for the statistics behind my masters thesis on coral stress physiology. This was my introduction into the world of programming and data analysis using R. At the time, I was using the R Console, which will explain why the script includes outputs. 
+
+The project focused on quantifying the impact of two stressors (temperature and physical abrasion) on a branching species of coral that was once widespread throughout the Caribbean. *Acropora cervicornis* is now an endangered species of stony coral that was once a fundamental reef builder. It is one of two branching species found in the Caribbean, but has seen a 99% decline in its abundance within the last 50 years. 
+
+As symbiotic organisms, coral tissue host zooxanthellae algae, which provides the colonial animal with two avenues for acquiring energy--autotrophically via photosynthesis and heterotrophic feeding via its polyps. Measuring metabolic rates is often done to measure an animal's ability to cope under stressful events. In addition to quantifying respiration, coral have an associated photosynthetic rate that may become compromised during thermal stress events.
+
+This study aimed to quantify the interaction between temperature and physical stressors and the impact on fragments of *A. cervicornis* in terms of its ability to photosynthesize and its respiration rates. In this lab experiment, fragments of staghorn coral were acquired from genotypically distinct populations courtesy of the Coral Restoration Foundation (CRF) and the Smithsonian Institute. The design of this experiment included four treatment classes for temperature (22, 25, 28, and 30 Celsius). Rates of photosynthesis and respiration were measured with an old-school flow through-respirometry and dissolved oxygen set-up. Coral fragments were randomly selected and assigned temperature treatments. Additionally, some fragments were subject to an abrasion wherein about 15% of the coral tissue was removed, simulating a predation event or impact from a fin, fishing gear, boat anchor, etc. 
+
+The final results in a peer-review journal can be seen on [Research Gate](https://www.researchgate.net/publication/337663969_Compound_effects_of_thermal_stress_and_tissue_abrasion_on_photosynthesis_and_respiration_in_the_reef-building_coral_Acropora_cervicornis_Lamarck_1816) If you are interested, please feel free to reach out and request the full document! 
