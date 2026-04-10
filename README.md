@@ -7,13 +7,12 @@ As symbiotic organisms, coral tissue host zooxanthellae algae, which provides th
 
 The R scripts included here were generated in R Console, so they include output results and some notes.  
 
-The final results in a peer-review journal can be seen on [Research Gate](https://www.researchgate.net/publication/337663969_Compound_effects_of_thermal_stress_and_tissue_abrasion_on_photosynthesis_and_respiration_in_the_reef-building_coral_Acropora_cervicornis_Lamarck_1816) If you are interested, please feel free to reach out and request the full document! 
+The final results ended up in my first peer-reviewed publication. Reach out to me on [Research Gate](https://www.researchgate.net/publication/337663969_Compound_effects_of_thermal_stress_and_tissue_abrasion_on_photosynthesis_and_respiration_in_the_reef-building_coral_Acropora_cervicornis_Lamarck_1816) if you are interested and would like to request the full document! 
 
 **Abstract** 
+
 Reef-building corals are threatened by multiple stressors, including rising ocean temperatures due to anthropogenic climate change, and tissue abrasion inflicted by increasing frequencies of recreational diving on tropical reefs. Both can impair coral growth and survival, but interactive effects of temperature and abrasion remain unknown. We conducted laboratory experiments to investigate the metabolic physiology of endangered Caribbean staghorn corals Acropora cervicornis (Lamarck, 1816) in response to both types of stressors: (1) temperature variation (22, 25, 28, and 30 °C) and (2) tissue abrasion (15% of tissue removed vs. non-abraded controls). Using flow-through respirometry, we measured net photosynthesis and respiration in 26 coral fragments (6 genotypes) exposed to 8 treatment combinations (4 temperature × 2 abrasion treatments). In nonabraded corals, net photosynthesis peaked at 25 °C but respiration increased linearly with temperature. Higher temperatures caused a decline in the ratio of photosynthesis to respiration (P:R), wherein corals were unable to meet their metabolic energy needs (P:R < 1). In addition, there was a significant interaction effect between the two stressors, in which tissue abrasion impaired photosynthesis and augmented respiration, especially at higher temperatures. We conclude that under conditions of both diver damage and elevated temperature, A. cervicornis cannot meet its energetic demands. These results indicate impairment of coral resilience to temperature-induced bleaching in areas exposed to high levels of abrasion (i.e.: popular dive sites). This information provides a scientific basis to support local reef management during climate change, and also reveals the metabolic processes that precede and underlie coral bleaching on tropical reefs.
+
 
 <img width="826" height="278" alt="Screenshot (205)" src="https://github.com/user-attachments/assets/38503c52-d438-499e-bc88-82d9639da6e6" />
 
-
-
-The final results in a peer-review journal can be seen on [Research Gate](https://www.researchgate.net/publication/337663969_Compound_effects_of_thermal_stress_and_tissue_abrasion_on_photosynthesis_and_respiration_in_the_reef-building_coral_Acropora_cervicornis_Lamarck_1816) If you are interested, please feel free to reach out and request the full document! 
